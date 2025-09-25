@@ -5,7 +5,7 @@
 # At one given loop entry, only one host will have its inventory_hostname match  the entry in the loop
 # restart.yml tasks will only run for that host ON that host
 - name: Serial Restart
-  import_playbook: restart.yml
+  include_tasks: restart.yml
   delegate_to: "{{ item }}"
   loop: "{{ groups['schema_registry'] }}"
   when:

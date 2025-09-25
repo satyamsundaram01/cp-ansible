@@ -6,9 +6,9 @@
   register: substate
 
 - name: Parallel Restart
-  import_playbook: restart.yml
+  include_tasks: restart.yml
   when: substate.stdout != 'SubState=running' or certs_updated|bool or not kafka_broker_jolokia_enabled|bool
 
 - name: Ordered Restart
-  import_playbook: ordered_restart.yml
+  include_tasks: ordered_restart.yml
   when: substate.stdout == 'SubState=running' and not certs_updated|bool and kafka_broker_jolokia_enabled|bool
