@@ -29,7 +29,7 @@
     return_content: true
     status_code: 200
   register: urp_result2
-  until: urp_result2['json']['value'] is defined
+  until: (urp_result2.content | from_json)['value'] is defined
   retries: 40
   delay: 5
   when:
