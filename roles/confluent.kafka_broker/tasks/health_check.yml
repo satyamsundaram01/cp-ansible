@@ -51,7 +51,7 @@
     return_content: true
     status_code: 200
   register: urp_result3
-  until: urp_result3['json']['value']['Value'] == 0
+  until: ((urp_result3.content | from_json)['value']['Value']) == 0
   retries: 40
   delay: 5
   when:
