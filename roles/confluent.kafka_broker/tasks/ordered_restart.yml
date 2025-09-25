@@ -16,7 +16,7 @@
 # At one given loop entry, only one host will have its inventory_hostname match the entry in the loop
 # restart.yml tasks will only run for that host ON that host
 - name: Restart Non Controller Kafka Brokers Serially
-  include: restart.yml
+  import_playbook: restart.yml
   delegate_to: "{{ item }}"
   loop: "{{ groups['kafka_broker'] }}"
   when:
@@ -24,6 +24,6 @@
     - active_controller_count_query['json']['value']['Value']|int == 0
 
 - name: Restart Kafka Broker Controller
-  include: restart.yml
+  import_playbook: restart.yml
   delegate_to: "{{ inventory_hostname }}"
   when: active_controller_count_query['json']['value']['Value']|int == 1

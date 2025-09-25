@@ -11,7 +11,7 @@
 # At one given loop entry, only one host will have its inventory_hostname match  the entry in the loop
 # restart.yml tasks will only run for that host ON that host
 - name: Restart Followers
-  include: restart.yml
+  import_playbook: restart.yml
   delegate_to: "{{ item }}"
   loop: "{{ groups['zookeeper'] }}"
   when:
@@ -20,6 +20,6 @@
     - '"follower" in leader_query.stdout or "standalone" in leader_query.stdout'
 
 - name: Restart Leader
-  include: restart.yml
+  import_playbook: restart.yml
   delegate_to: "{{ inventory_hostname }}"
   when: '"leader" in leader_query.stdout'
