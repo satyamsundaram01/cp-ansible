@@ -29,7 +29,9 @@
     return_content: true
     status_code: 200
   register: urp_result2
-  until: (urp_result2.content | from_json)['value'] is defined
+  until: >
+    urp_result2.content | trim | length > 0 and
+    ((urp_result2.content | trim | from_json).value is defined)
   retries: 40
   delay: 5
   when:
@@ -51,7 +53,9 @@
     return_content: true
     status_code: 200
   register: urp_result3
-  until: ((urp_result3.content | from_json)['value']['Value']) == 0
+  until: >
+    urp_result3.content | trim | length > 0 and
+    ((urp_result3.content | trim | from_json)['value']['Value'] == 0)
   retries: 40
   delay: 5
   when:
